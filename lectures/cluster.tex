@@ -18,25 +18,28 @@
 
 \begin{frame}{Ice breaker}
 
-todo
+What is the biggest system you managed to (accidentally) bring down?
 
 \end{frame}
 
 
 \section{Problem definition}
 
-
 \begin{frame}{What is a cluster?}
 
+\pause
 \begin{quotation}
 A distributed system is one in which the failure of a computer you didn't even know existed can render your own computer unusable
 
 Leslie Lamport
 \end{quotation}
+\pause
+
+A group of computers connected by network.
 
 \begin{itemize}
     \item A cluster is usually managed by a single organization
-    \item Usually more uniform structure
+    \item Usually uniform structure
     \item Reliability is less important than raw performance
 \end{itemize}
 
@@ -47,58 +50,145 @@ Leslie Lamport
 \begin{enumerate}
     \item Modern computer applications include large networks of individual computers
     \item Similarly to simulation of individual systems, there may be value in simulation of networks of systems
+    \item Apparent challenge: target won't fit into a host
 \end{enumerate}
 
 \end{frame}
 
-\begin{frame}{What problem does it solve?}
+\begin{frame}{What problems does such simulation solve?}
+
+Possible issues:
 
 \begin{enumerate}
-    \item Study of scalability effects
-    \item Tracing of remote
-    \item Tracing of remote
-    \item 
+    \item Study of scalability effects/limitations
+    \item Tracing of communication patterns
+    \item Development of cluster software
 \end{enumerate}
 
 \end{frame}
 
+\begin{frame}{What about the challenge?}
+
+Let's try the obvious solution: distribute the simulation over a network of host systems.
+
+We now have a target network of target nodes represented by a host network of host nodes.
+
+\end{frame}
 
 
 \section{Components of solution}
 
-\begin{frame}{todo}
+\begin{frame}{What constitutes the solution}
 
-
-\begin{enumerate}
-    \item 
-\end{enumerate}
+\begin{itemize}
+    \item models of individual target compute nodes
+    \item model of target network (links and routers)
+    \item means for time synchronization
+    \item framework to distribute the simulation
+    \item framework to manage the simulation
+\end{itemize}
 
 \end{frame}
+
+\begin{frame}{Target nodes}
+
+\begin{itemize}
+\item Models of a single computer system
+\item Typically consists of: CPUs, memory, storage, network card
+\item Typically runs: target software stack: EFI, hypervisor, OS, user application
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Target network}
+
+\begin{itemize}
+\item Physical channels (Ethernet, Infiniband, etc.)
+\item Models of routing devices
+\item Routers may be also computers with own software
+\item Or they may be abstracted as black boxes with no internal structure \pause
+\item …can compute nodes be black boxes too‽ Why not!
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Global target time}
+
+\begin{itemize}
+\item Surprisingly important topic to maintain consistent target state 
+\item Examples of algorithms: naive host time pass-through, global barrier, time warp protocol… 
+\item 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Framework to distribute simulation}
+
+\begin{itemize}
+\item More than one target node can fit into a single target host
+\item Targets on a single host may be running in parallel if host is multiprocessor
+\item Across multiple hosts, the simulator framework should provide a transparent mechanism to communicate (pass target network packets) and coordinate (target time, start/stop etc.) groups of target nodes
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{But how do they fit?}
+
+\begin{itemize}
+\item Two principles: 1) sharing is caring; 2) being lazy is a virtue
+\item Target nodes are likely to run identical software. Read-only parts of memory are shared.
+\item Target software may use a limited amount of resources actively at any moment
+\end{itemize}
+
+Examples: 100 GByte target disk may occupy only 2 GB of host space. RAM of 10 target systems  may be deduplicated into working set of about 1 target system.
+
+\end{frame}
+
+
+\begin{frame}{Managing the simulation}
+
+Imagine yourself standing before a room full of servers.
+
+\begin{itemize}
+\item Starting all of them
+\item Distributing the application task
+\item Controlling and inspecting the state of individual components
+\item Shutting down
+\end{itemize}
+
+Obviously, a separate messaging network is required to be provided by the simulation framework to support these activities
+
+\end{frame}
+
 
 \section{Practical application}
 
-\begin{frame}{Simulation of 10000 processors}
+\begin{frame}{Simulation of 10000 processor cores}
 
-
-\begin{enumerate}
-    \item 
-\end{enumerate}
+\Huge HERE BE PICTURES
 
 \end{frame}
+
 
 
 \section{End}
 
-\begin{frame}{Summary}
+\begin{frame}{Conclusions}
 \begin{itemize}
-\item 
+\item Distributed simulation may be a right tool for the right task
+\item It requires substantial simulation framework support 
+\item However, many goals may often be achieved by more modest means
+\item This is the science for you: not all hypotheses turn out to be true
 \end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Bibliography}
 \begin{thebibliography}{99}
-  \bibitem{itj} \textit{Grigory Rechistov} Simics* on Shared Computing Clusters: the Practical Experience of Integration and Scalability \url{https://atakua.org/w/images/Intel%20ITJ60%2011-15-2013.pdf}
-  \bibitem{progeng2012} \textit{Г.С. Речистов and А.А. Иванов and П.Л. Шишпор and В.М. Пентковский} Моделирование компьютерного кластера на распределённом симуляторе. Верификация моделей вычислительных узлов и сети кластера \url{https://atakua.org/w/images/printedl%20pi612_web-24-29.pdf}
+
+  \bibitem{itj} \textit{Grigory Rechistov} Simics* on Shared Computing Clusters: the Practical Experience of Integration and Scalability \url{https://atakua.org/w/images/Intel\%20ITJ60\%2011-15-2013.pdf}
+  
+  \bibitem{progeng2012} \textit{Г.С. Речистов and А.А. Иванов and П.Л. Шишпор and В.М. Пентковский} Моделирование компьютерного кластера на распределённом симуляторе. Верификация моделей вычислительных узлов и сети кластера \url{https://atakua.org/w/images/printedl\%20pi612_web-24-29.pdf}
   \bibitem{issc2012} \textit{G.S. Rechistov and A.A. Ivanov and P.L. Shishpor and V.M. Pentkovski} Simulation and Performance Study of Large Scale Computer Cluster Configuration: Combined Multi-level Approach \url{http://www.sciencedirect.com/science/article/pii/S1877050912002049}  
 
 \end{thebibliography}
