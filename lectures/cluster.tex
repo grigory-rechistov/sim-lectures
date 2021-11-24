@@ -81,11 +81,11 @@ We now have a target network of target nodes represented by a host network of ho
 \begin{frame}{What constitutes the solution}
 
 \begin{itemize}
-    \item models of individual target compute nodes
-    \item model of target network (links and routers)
-    \item means for time synchronization
-    \item framework to distribute the simulation
-    \item framework to manage the simulation
+    \item Models of individual target compute nodes
+    \item Model of target network (links and routers)
+    \item Means for time synchronization
+    \item Framework to distribute the simulation
+    \item Framework to manage the simulation
 \end{itemize}
 
 \end{frame}
@@ -116,9 +116,9 @@ We now have a target network of target nodes represented by a host network of ho
 \begin{frame}{Global target time}
 
 \begin{itemize}
-\item Surprisingly important topic to maintain consistent target state 
+\item Surprisingly hard topic. Required to maintain consistent target state 
 \item Examples of algorithms: naive host time pass-through, global barrier, time warp protocol… 
-\item 
+\item Remember: we should be able to synchronously start and resume the simulation, transparently to the target
 \end{itemize}
 
 \end{frame}
@@ -132,6 +132,10 @@ We now have a target network of target nodes represented by a host network of ho
 \end{itemize}
 
 \end{frame}
+
+\begin{frame}{Break time}
+\end{frame}
+
 
 \begin{frame}{But how do they fit?}
 
@@ -148,16 +152,16 @@ Examples: 100 GByte target disk may occupy only 2 GB of host space. RAM of 10 ta
 
 \begin{frame}{Managing the simulation}
 
-Imagine yourself standing before a room full of servers.
+Imagine yourself standing in a room full of servers. How'd you approach…
 
 \begin{itemize}
-\item Starting all of them
-\item Distributing the application task
-\item Controlling and inspecting the state of individual components
-\item Shutting down
+\item Starting all of them?
+\item Distributing the application task?
+\item Controlling and inspecting states of individual components?
+\item Shutting them down?
 \end{itemize}
 
-Obviously, a separate messaging network is required to be provided by the simulation framework to support these activities
+Obviously, a separate messaging network is required to be provided by the simulation framework to support these activities in a centralized manner
 
 \end{frame}
 
